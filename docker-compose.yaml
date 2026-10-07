@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: pulsegate-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pulsegate_dev
+      POSTGRES_DB: pulsegate
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgres/data
+
+volumes:
+  postgres_data:
