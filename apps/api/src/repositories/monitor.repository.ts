@@ -27,6 +27,14 @@ class MonitorRepository {
       },
     });
   }
+
+  async findById(id: string): Promise<Monitor | null> {
+    return prisma.monitor.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
 }
 
 export const monitorRepository = new MonitorRepository();

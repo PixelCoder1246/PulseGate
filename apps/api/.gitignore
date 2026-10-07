@@ -1,5 +1,115 @@
-node_modules
-# Keep environment variables out of version control
-.env
+# =========================================
+# Dependencies
+# =========================================
 
-/src/generated/prisma
+node_modules/
+.pnp/
+.pnp.js
+
+
+# =========================================
+# Environment variables / secrets
+# =========================================
+
+.env
+.env.*
+!.env.example
+
+
+# =========================================
+# Build output
+# =========================================
+
+dist/
+build/
+out/
+
+
+# =========================================
+# TypeScript
+# =========================================
+
+*.tsbuildinfo
+
+
+# =========================================
+# Test / coverage
+# =========================================
+
+coverage/
+.nyc_output/
+
+
+# =========================================
+# Logs
+# =========================================
+
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# =========================================
+# Runtime / temporary files
+# =========================================
+
+tmp/
+temp/
+*.tmp
+*.temp
+
+
+# =========================================
+# OS generated files
+# =========================================
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+
+# =========================================
+# IDE / Editor
+# =========================================
+
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+.idea/
+*.swp
+*.swo
+
+
+# =========================================
+# Prisma generated client
+# =========================================
+
+# Keep Prisma migrations tracked.
+# Ignore only generated client output if desired.
+
+# If your Prisma generator outputs here:
+# apps/api/src/generated/
+# Uncomment the next line if you don't want
+# generated Prisma client files in Git.
+
+# apps/api/src/generated/
+
+
+# =========================================
+# Docker
+# =========================================
+
+*.pid
+docker-data/
+
+
+# =========================================
+# Miscellaneous
+# =========================================
+
+*.bak
+*.orig
