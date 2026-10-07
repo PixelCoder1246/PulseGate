@@ -5,7 +5,7 @@ export function validateCreateMonitor(
   res: Response,
   next: NextFunction,
 ) {
-  const { name, url } = req.body;
+  const { name, url, interval } = req.body;
 
   if (typeof name !== 'string' || name.trim().length === 0) {
     return res.status(400).json({
@@ -20,10 +20,27 @@ export function validateCreateMonitor(
   }
 
   try {
-    new URL(url);
+    const parsedUrl = new URL(url);
+
+    if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+      return res.status(400).json({
+        error: 'Monitor URL must use HTTP or HTTPS',
+      });
+    }
   } catch {
     return res.status(400).json({
       error: 'Monitor URL must be a valid URL',
+    });
+  }
+
+  if (
+    interval !== undefined &&
+    (typeof interval !== 'number' ||
+      !Number.isInteger(interval) ||
+      interval < 30)
+  ) {
+    return res.status(400).json({
+      error: 'Interval must be an integer of at least 30 seconds',
     });
   }
 

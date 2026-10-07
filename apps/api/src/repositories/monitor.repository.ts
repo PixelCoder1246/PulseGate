@@ -11,11 +11,12 @@ export interface Monitor {
 }
 
 class MonitorRepository {
-  async create(name: string, url: string): Promise<Monitor> {
+  async create(name: string, url: string, interval?: number): Promise<Monitor> {
     return prisma.monitor.create({
       data: {
         name,
         url,
+        ...(interval !== undefined && { interval }),
       },
     });
   }
@@ -30,6 +31,36 @@ class MonitorRepository {
 
   async findById(id: string): Promise<Monitor | null> {
     return prisma.monitor.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async updateStatus(id: string, status: string): Promise<Monitor> {
+    return prisma.monitor.update({
+      where: {
+        id,
+      },
+      data: {
+        status,
+      },
+    });
+  }
+
+  async updateInterval(id: string, interval: number): Promise<Monitor> {
+    return prisma.monitor.update({
+      where: {
+        id,
+      },
+      data: {
+        interval,
+      },
+    });
+  }
+
+  async delete(id: string): Promise<Monitor> {
+    return prisma.monitor.delete({
       where: {
         id,
       },

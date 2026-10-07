@@ -1,6 +1,8 @@
 import { monitorRepository } from '../repositories/monitor.repository.js';
 import { monitorCheckRepository } from '../repositories/monitor-check.repository.js';
 
+import { monitorQueue } from '../queues/monitor.queue.js';
+
 class MonitorCheckService {
   async checkMonitor(monitorId: string) {
     const monitor = await monitorRepository.findById(monitorId);
@@ -49,15 +51,28 @@ class MonitorCheckService {
             : error.message
           : 'Unknown error';
 
-      const check = await monitorCheckRepository.create({
+      await monitorCheckRepository.create({
         monitorId: monitor.id,
         responseTime,
         success: false,
         errorMessage,
       });
-
-      return check;
+      throw error;
     }
+  }
+
+  async enqueueMonitorCheck(monitorId: string) {
+    const monitor = await monitorRepository.findById(monitorId);
+
+    if (!monitor) {
+      throw new Error('Monitor not found');
+    }
+
+    const job = await monitorQueue.add('monitor-check', {
+      monitorId: monitor.id,
+    });
+
+    return job;
   }
 }
 

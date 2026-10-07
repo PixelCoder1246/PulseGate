@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 
 import monitorRoutes from './routes/monitor.routes.js';
+import redisRoutes from './routes/redis.routes.js';
 import { errorMiddleware } from './middlewares/error.middleware.js';
 
 const app = express();
@@ -24,6 +25,7 @@ app.get('/health', (_req, res) => {
 });
 
 app.use('/api/monitors', monitorRoutes);
+app.use('/api/redis', redisRoutes);
 
 app.use(errorMiddleware);
 
